@@ -1,53 +1,104 @@
-let numericCharacters = [ "0","1","2","3","4","5","6","7","8","9"];
-let upperCasedCharacters = [ "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
-let lowerCasedCharacters = [ "a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
-let specialCharacters = ["!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "~", "{", "}", "[", "]", "_", "-", "<", ">", "?", "/", "."];
+let Numbers = ['1','2','3','4','5','6','7','8','9','0'];
+let upperCaseLetters = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+let lowerCaseLetters = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+let specialCharacters = ['!', '@', '#', '$', '%', '~', '=', '+', '?', '/', ':', ',', '{', '}', '[', ']'];
 
-function getPasswordOptions () {
-  let length = parseInt (
-    prompt("Number of characters?")
-  )
-};
+function getPasswords () {
+  let length = parseInt(
+    prompt ("How many characters?")
+  );
 
-if (isNaN(length) = true) {
-  alert("Password length must be a number");
-  return;
+
+  if (isNaN(length) === true) {
+    alert('Length of password must be a number');
+  }
+
+  if (length < 8) {
+    alert('Password must be more than 8 characters');
+  }
+
+  if (length > 128) {
+    alert ("Password must be less that 129 characters");
+  }
+
+  let hasNumbers = confirm (
+    "Click ok to include numbers"
+  );
+
+  let hasupperCaseLetters = confirm(
+    "Click ok to confirm upper case letters"
+  );
+
+  let haslowerCaseLetters = confirm (
+    "Click on to confirm lower case letters"
+  ); 
+
+  let hasspecialCharacters = confirm (
+    "Click ok to confirm special characters"
+  );
+
+  if (
+  hasNumbers === false&&
+  haslowerCaseLetters === false &&
+  hasupperCaseLetters === false &&
+  hasspecialCharacters === false
+  ) {
+    alert ("Select at least one character type")
+  }
+  var passwordOptions = {
+    length: length,
+    hasspecialCharacters: hasspecialCharacters,
+    hasNumbers: hasNumbers,
+    haslowerCaseLetters: haslowerCaseLetters,
+    hasupperCaseLetters: hasupperCaseLetters
+  };
+
+  return passwordOptions;
+}
+
+function getRandom(arr) {
+  let randIndex = Math.floor(Math.random() * arr.length);
+  let randElement = arr[randIndex];
+  return randElement;
+}
+ 
+function generatePassword() {
+  let options = getPasswords();
+  let result = [];
+  let possibleCharacters = [];
+  let approvedCharacters = [];
+  if (options.hasupperCaseLetters) {
+    possibleCharacters = possibleCharacters.concat(upperCaseLetters);
+    approvedCharacters.push(getRandom(upperCaseLetters));
+  }
+  if (options.hasNumbers) {
+    possibleCharacters = possibleCharacters.concat(Numbers);
+    approvedCharacters.push(getRandom(Numbers));
+  }
+  if (options.haslowerCaseLetters) {
+    possibleCharacters = possibleCharacters.concat(lowerCaseLetters);
+    approvedCharacters.push(getRandom(lowerCaseLetters));
+  }
+  if (options.hasspecialCharacters) {
+    possibleCharacters = possibleCharacters.concat(specialCharacters);
+    approvedCharacters.push(getRandom(specialCharacters));
+  }
+
+
+
+  for (var i = 0; i < options.length; i++) {
+  let resultCharacters = getRandom(possibleCharacters);
+  result.push(resultCharacters);
+}
+
+  for (var i = 0; i < approvedCharacters.length; i++) {
+  result[i] = approvedCharacters[i];
+  return result.join("");
+}
 }
 
 
-if (length < 8) {
-  alert("Must be longer than 8 characters");
-  return;
-}
 
-
-if (length > 128) {
-  alert ("Must be shorter than 129 characters");
-  return;
-}
-
-let containsNumericCharacters = confirm (
-  "OK to confirm contains numeric characters"
-)
-let containsUpperCasedCharacters = confirm (
-  "OK to confirm contains upper cased characters"
-)
-let containsLowerCasedCharacters = confirm (
-  "OK to confirm contains lower cased characters"
-)
-let containsSpecialCharacters = confirm (
-  "OK to confirm contains special characters"
-)
-
-if (
-  containsLowerCasedCharacters === false &&
-  containsUpperCasedCharacters === false &&
-  containsNumericCharacters === false &&
-  containsSpecialCharacters === false
-) {
-  alert("Must have at least one character type");
-  return;
-}
 
 
 // Assignment Code
